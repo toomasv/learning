@@ -95,7 +95,7 @@ on-change [cmd/text: pick commands face/selected]
 ```
 
 We'll also wrap our code into `context` to keep it separated from global environment. 
-Putting all these elements together we have [following code](drawing-simple-add-clear-cmds.red):
+Putting all these elements together we have [following code](drawing-simple-add-cmds.red):
 
 ```
 Red []
