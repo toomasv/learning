@@ -156,13 +156,14 @@ the box formula:
 on-down [s: skip insert tail face/draw compose [box (event/offset) (event/offset)] -3]
 ```
 
-Here we are first composing box's formula with `down` event's offset. Then we are inserting this formula to the tail of `face/draw`, i.e. our canvas.
+Here we are first composing box's formula with `down` event's offset, that is our mouse's position. 
+Then we are inserting this formula to the tail of `face/draw`, i.e. our canvas.
 And finally we are skipping 3 steps back from tail (to just before `box`) and recording this position with set-word `s:`.
 
 But in this way any `down` event regadless of which figure is selected on text-list will result in inserting box. 
 We need to discriminate between which figure is selected, and insert different formulas accordingly.
-Let's handle this by switchig on selected element. `tl/selected` gives us the number of selected element in tl (i.e. our textlist), 
-so we neede to pick corresponding elemnt from `tl/data`:
+Let's handle this by switchig on selected element. `tl/selected` gives us the number of selected element in tl 
+(i.e. our textlist), so we neede to pick corresponding elemnt from `tl/data`:
 
 ```
 on-down [
@@ -172,7 +173,7 @@ on-down [
 ]
 ```
 
-OK. We have set our initial position, now we need to expand the box by pulling mouse across canvas. We'll catch this movement with actor `on-over`.
+OK. We have set our initial position, now we need to expand the box by dragging mouse across canvas. We'll catch this movement with actor `on-over`.
 By default `on-over` catches only movement into and out-of face. To catch all movements of mouse over our canvas we need to add `all-over` keyword to our VID.
 We know that `s` is our handle to access elements in `box`'s formula, and we need to set third element in this formula to the moving `event/offset`:
 
@@ -181,7 +182,8 @@ all-over
 on-over [s/3: event/offset]
 ```
 
-Oops! This has two flaws: 1) again, we didn't specify we need to set `s/3` when `box` figure is selected, and 2) currently it captures all mouse movements over canvas
+Oops! This has two flaws: 1) again, we didn't specify we need to set `s/3` only when `box` figure is selected, and 
+2) currently it captures all mouse movements over canvas
 but we need to capture these movements only if left-button is down. Let's correct it:
 
 ```
