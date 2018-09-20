@@ -139,10 +139,10 @@ program more like hmm.. drawing on canvas. Let's actually draw on it.
 **Drawing a box**
 
 To achieve this we have to use some actors. First, we need to register where does mouse touch our canvas on 
-left-down event and then we have to track its movement while it's kept down. 
+left-down event and then we have to track mouse's movement as long as its' left button is kept down. 
 
 To register the first push we'll use event `down`, which is caught by actor `on-down`. Let's try it first on `box`.
-So, on mouse's `down` event we insert box's formula with both starting-point and ending-point set to `event/offset` coordinates:
+So, on mouse's `down` event we insert box's formula stright onto canvas with both starting-point and ending-point set to `event/offset` coordinates:
 
 ```
 on-down [insert tail face/draw compose [box (event/offset) (event/offset)]]
