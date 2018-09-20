@@ -160,7 +160,7 @@ Here we are first composing box's formula with `down` event's offset, that is ou
 Then we are inserting this formula to the tail of `face/draw`, i.e. our canvas.
 And finally we are skipping 3 steps back from tail (to just before `box`) and recording this position with set-word `s:`.
 
-But in this way any `down` event regadless of which figure is selected on text-list will result in inserting box. 
+But in this way any `down` event will result in inserting box regadless of which figure is selected on text-list. 
 We need to discriminate between which figure is selected, and insert different formulas accordingly.
 Let's handle this by switchig on selected element. `tl/selected` gives us the number of selected element in tl 
 (i.e. our textlist), so we neede to pick corresponding elemnt from `tl/data`:
