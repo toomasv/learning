@@ -31,7 +31,7 @@ You can do it by changing field's behaviour: via [this ajusted app](drawing-simp
 field 300 focus	[append canvas/draw face/data clear face/text] 
 ```
 
-While we can add figures now incrementally, we lost the capacity to clean our canvas. To start afres 
+While we can add figures now incrementally, we lost the capacity to clean our canvas. To start afresh 
 we have to close and reopen our app. Not nice. Let's add [clearing button behind the field](drawing-simple-add-clear.red):
 
 ```
