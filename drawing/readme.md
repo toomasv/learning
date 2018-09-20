@@ -86,7 +86,7 @@ tl: text-list 100x300 data [
 canvas: box 300x300 white draw []
 ```
 
-Notice, that this works only because we have 1 to 1 mapping from `tl/data` to `commands`. Now we have list of commands in our GUI, bunch of commands with sytnax, and a field but we need them to interact with each other. 
+Now we have list of commands in our GUI, bunch of commands with sytnax, and a field but we need them to interact with each other. 
 First we need to give our elements names, so we can refer to them. Let's name list of commands with syntax `commands`, text-list `tl`
 and editable field `cmd`. Then we need to connect these together by a formula. We can use text-list's `on-change` actor for that:
 
@@ -94,6 +94,7 @@ and editable field `cmd`. Then we need to connect these together by a formula. W
 on-change [cmd/text: pick commands face/selected]
 ```
 
+Notice, that this will work only because we have 1 to 1 mapping from `tl/data` to `commands`. 
 We'll also wrap our code into `context` to keep it separated from global environment. 
 Putting all these elements together we have [following code](drawing-simple-add-cmds.red):
 
