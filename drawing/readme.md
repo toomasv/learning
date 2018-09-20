@@ -86,7 +86,7 @@ tl: text-list 100x300 data [
 canvas: box 300x300 white draw []
 ```
 
-Now we have list of commands in our GUI, bunch of commands with sytnax, and a field but we need them to interact with each other. 
+Now we have list of commands in our GUI, bunch of commands with syntax, and a field but we need them to interact with each other. 
 First we need to give our elements names, so we can refer to them. Let's name list of commands with syntax `commands`, text-list `tl`
 and editable field `cmd`. Then we need to connect these together by a formula. We can use text-list's `on-change` actor for that:
 
