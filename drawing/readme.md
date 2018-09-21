@@ -13,8 +13,8 @@ Red []
 view [
 	below 
 	text "Write some drawing commands here and press enter:"
-	field 300 focus	[append clear canvas/draw face/data] 
-	canvas: box 300x300 white draw []
+	field 400 focus	[append clear canvas/draw face/data] 
+	canvas: box 400x400 white draw []
 ]
 ```
 
@@ -28,7 +28,7 @@ To build the drawing incrementally we might want to add results of individual co
 You can do it by changing field's behaviour: via [this ajusted app](drawing-simple-add.red). 
 
 ```
-field 300 focus	[append canvas/draw face/data clear face/text] 
+field 400 focus	[append canvas/draw face/data clear face/text] 
 ```
 
 While we can add figures now incrementally, we lost the capacity to clean our canvas. To start afresh 
