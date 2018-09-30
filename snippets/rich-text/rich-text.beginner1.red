@@ -1,5 +1,5 @@
 Red [
-	Purpose: {Very simple rich-text demo}
+	Purpose: {Very simple single-box rich-text demo}
 ]
 
 view [rich-text 200x50 "Little example of rich-text" with [
