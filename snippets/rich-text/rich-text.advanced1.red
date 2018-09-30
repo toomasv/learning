@@ -37,7 +37,10 @@ require: func [msg /font /color /size /local val][
 view compose [
 	title "Area to rich-text" below 
 	src: area wrap with [
-		menu: ["Italic" italic "Bold" bold "Underline" underline "Strike" strike "Color" color "Backdrop" backdrop "Size" size "Font" font]
+		menu: [
+			"Italic" italic "Bold" bold "Underline" underline "Strike" strike 
+			"Color" color "Backdrop" backdrop "Size" size "Font" font
+		]
 	] on-menu [
 		spec: make block! 2 
 		pos: as-pair face/selected/x face/selected/y - face/selected/x + 1 
