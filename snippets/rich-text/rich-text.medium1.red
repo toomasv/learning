@@ -15,8 +15,7 @@ view compose [
 		size: src/size - 7x3
 	] below button "View" [
 		if show-rt: face/text = "View" [rt/text: copy src/text] 
-		face/text: pick ["Text" "View"] 
-		rt/visible?: show-rt
+		face/text: pick ["Text" "View"] rt/visible?: show-rt
 	] button "Clear" [clear rt/data]
 ]
 
