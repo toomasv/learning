@@ -1,10 +1,12 @@
 Red [
 	Purpose: {A bit more advanced rich-text demo}
+	Help: {Select some text in first box, choose formatting from context-menu (alt-click).
+		"Clear" clears formatting.}
 ]
 
-require: func [msg /font /color /size /local val][
-	case/all [
-		font [
+require: func [msg /local val][
+	switch msg [
+		"Font:" [
 			val: "System" 
 			view compose [
 				title (msg) 
@@ -13,7 +15,7 @@ require: func [msg /font /color /size /local val][
 				on-change [probe val: system/view/fonts/(pick face/data face/selected - 1 * 2 + 2) unview]
 			]
 		]
-		size [
+		"Size:" [
 			val: 9
 			view compose [
 				title (msg) 
@@ -22,7 +24,7 @@ require: func [msg /font /color /size /local val][
 				on-change [val: load pick face/data face/selected unview]
 			]
 		]
-		color [
+		"Color:" "Backdrop:"[
 			val: 0.0.0
 			view compose/only [
 				title (msg) 
@@ -37,18 +39,15 @@ require: func [msg /font /color /size /local val][
 view compose [
 	title "Area to rich-text" below 
 	src: area wrap with [
-		menu: [
-			"Italic" italic "Bold" bold "Underline" underline "Strike" strike 
-			"Color" color "Backdrop" backdrop "Size" size "Font" font
-		]
+		menu: ["Italic" italic "Bold" bold "Underline" underline "Strike" strike "Color" color "Backdrop" backdrop "Size" size "Font" font]
 	] on-menu [
 		spec: make block! 2 
 		pos: as-pair face/selected/x face/selected/y - face/selected/x + 1 
 		insert spec switch/default event/picked [
-			backdrop [reduce ['backdrop require/color "Backdrop:"]] 
-			color [reduce [require/color "Color:"]]
-			size [reduce [require/size "Size:"]]
-			font [reduce [require/font "Font:"]]
+			backdrop [reduce ['backdrop require "Backdrop:"]] 
+			color [require "Color:"]
+			size [require "Size:"]
+			font [require "Font:"]
 		][reduce [event/picked]]
 		insert spec pos
 		append rt/data spec
@@ -56,7 +55,8 @@ view compose [
 	] on-key [
 		rt/text: face/text 
 		rt/data: rt/data
-	] return 
+	] 
+	return 
 	pnl: panel white with [
 		size: src/size 
 		draw: compose [pen gray box 0x0 (size - 1)] 
