@@ -1,5 +1,7 @@
 Red [
 	Purpose: {Relatively simple rich-text demo}
+	Help: {Enter text. Select some text, choose formatting from contextual menu (alt-click).
+		Press "View" to see formatting, "Text" to return to text editing, "Clear" to clear formatting.}
 ]
 view compose [
 	src: area wrap with [
