@@ -212,6 +212,7 @@ view/flags [
 			]
 		]
 	]
+	; Example 1
 	fluid with [extra/width: [1 3] extra/height: -50][area wrap] 
 	fluid with [extra/height: 80% extra/width: [1 3]][box gold] ;extra/absolute?: no
 	fluid with [extra/width: [1 3]][text-list data [
@@ -221,17 +222,17 @@ view/flags [
 	] 
 	return button "OK"
 	
+	; Example 2
 	;text "Description:" fluid with [extra/height: -220][area wrap] return ;
 	;fluid with [extra/height: 25][panel [origin 0x0 text "First name:" fluid with [extra/space: 0x0][fn: field]]] return
 	;fluid with [extra/height: 25][panel [origin 0x0 text "Last name:" fluid with [extra/space: 0x0][ln: field]]] return
 	;fluid with [extra/size: 'fixed extra/valign: 'bottom extra/align: 'right][button "Send"]
 	
+	; Example 3
 	;fluid with [extra/height: 'fixed][box brick] return
 	;fluid with [extra/width: 33% extra/height: -50][box leaf] 
 	;fluid with [extra/width: 15% extra/height: 50%][box gold] 
 	;;fluid with [extra/width: 15%][box teal] 
 	;fluid with [extra/width: 'auto extra/height: 'auto][box teal] 
 	;return button "OK"
-	
-	;fluid 300x300 [tab-panel ["A" [fluid [area]] "B" [fluid [field]]]]
 ][resize]
