@@ -172,7 +172,7 @@ view/flags [
 			height: auto ; See above + for two-dimensional faces 'auto is max available space, for one-dimensional faces, 'auto is face's y-size
 			;absolute?: (yes) ; TBD yes - calculations from window/panel size, no - calculations from available space
 			right: [] ; list of faces on right
-			below: [] ; list of faces belo
+			below: [] ; list of faces below
 			align: left ; Can be word! ('left, 'right); TBD 'center, integer!, percent!, block!
 			valign: top ; Can be word! ('top, 'bottom); TBD 'middle, integer!, percent, block!
 			space: 10x10 ; records space in current environment
