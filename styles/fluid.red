@@ -1,7 +1,7 @@
 Red [
 	Author: "Toomas Vooglaid"
 	Date: 2018-10-11
-	Last: 2018-10-14
+	Last: 2018-10-15
 	Purpose: {Fluid style for Red VID}
 ]
 lim: func [:dir face][face/offset/:dir + face/size/:dir] 
@@ -14,7 +14,7 @@ get-offset: func [face /local x-ofs y-ofs][
 				x-ofs: face/parent/size/x - face/extra/space/x - face/size/x
 			][
 				if 2 <= length? face/extra/right [
-					sort/compare face/extra/right func [a b][a/offset/x < b/offset/x]
+					sort/compare face/extra/right func [a b][a/1/1/offset/x < b/1/1/offset/x]
 				]
 				x-ofs: face/extra/right/1/x - face/extra/space/x - face/size/x
 			]
@@ -27,7 +27,7 @@ get-offset: func [face /local x-ofs y-ofs][
 				y-ofs: face/parent/size/y - face/extra/space/y - face/size/y
 			][
 				if 2 <= length? face/extra/below [
-					sort/compare face/extra/below func [a b][a/offset/y < b/offset/y]
+					sort/compare face/extra/below func [a b][a/1/1/offset/y < b/1/1/offset/y]
 				]
 				y-ofs: face/extra/below/1/y - face/extra/space/y - face/size/y
 			]
@@ -52,24 +52,37 @@ get-dims: func [face /height width /sz sz-set? /local size dim z side ind][
 	z: pick [y x] height
 	side: pick [below right] height
 	; Determine value from parameter indication
+	;print [dim height] 
 	set dim switch type?/word ind: face/extra/:dim [
 		word! [
 			switch ind [
 				auto [
 					switch/default face/pane/1/type [
 						area base text panel tab-panel button [
-							face/parent/size/:z - face/offset/:z - face/extra/space/:z
+							;either face/extra/absolute? [
+								face/parent/size/:z - face/offset/:z - face/extra/space/:z
+							;][
+							;	get-limit face side
+							;]
 						]
 						text-list drop-list [
 							either z = 'y [
-								face/parent/size/:z - face/offset/:z - face/extra/space/:z
+								;either face/extra/absolute? [
+									face/parent/size/:z - face/offset/:z - face/extra/space/:z
+								;][
+								;	get-limit face side
+								;]
 							][
 								face/pane/1/size/:z
 							]
 						]
 					][
 						either z = 'x [
-							face/parent/size/:z - face/offset/:z - face/extra/space/:z
+							;either face/extra/absolute? [
+								face/parent/size/:z - face/offset/:z - face/extra/space/:z
+							;][
+							;	get-limit face side
+							;]
 						][
 							face/pane/1/size/:z
 						]
@@ -92,7 +105,7 @@ get-dims: func [face /height width /sz sz-set? /local size dim z side ind][
 	]
 	either height [max as-pair width height face/extra/min][get-dims/height/sz face width sz-set?]
 ]
-; Register faces on right/below of the current one
+; Register faces on right/above of the current one
 register-dependants: func [face /local pane elem][
 	pane: face/parent/pane
 	clear face/extra/right
@@ -117,6 +130,7 @@ register-dependants: func [face /local pane elem][
 			]
 		]
 	]
+	probe ""
 ]
 ; Max y-limit of faces above current one
 offset-above: func [face /local elem offset current][
@@ -161,9 +175,24 @@ move-dependants: func [face /local right elem limit][
 		]
 	]
 ]
+get-limit: func [face side /local dim][
+	dim: pick [x y] side = 'right
+	;probe "hi"
+	either empty? face/extra/:side [
+		;probe "empty"
+		face/parent/size/:dim - face/extra/space/:dim
+	][
+		if 2 <= length? face/extra/:side [
+			sort/compare face/extra/:side func [a b][a/1/1/offset/:dim < b/1/1/offset/:dim]
+		]
+		;print ["not empty" face/extra/:side/1/1/offset/:dim face/extra/:side/1/1/size/:dim ]
+		face/extra/:side/1/1/offset/:dim - face/extra/space/:dim
+	]
+]
 view/flags [
 	size 300x275
 	on-resizing [foreach f face/extra [do-actor f event 'resizing]]
+	on-resize [foreach f face/extra [do-actor f event 'resizing]]
 	style fluid: panel with [
 		extra: compose [
 			style: fluid
@@ -172,16 +201,23 @@ view/flags [
 			height: auto ; See above + for two-dimensional faces 'auto is max available space, for one-dimensional faces, 'auto is face's y-size
 			;absolute?: (yes) ; TBD yes - calculations from window/panel size, no - calculations from available space
 			right: [] ; list of faces on right
-			below: [] ; list of faces below
+			below: [] ; list of faces belo
 			align: left ; Can be word! ('left, 'right); TBD 'center, integer!, percent!, block!
 			valign: top ; Can be word! ('top, 'bottom); TBD 'middle, integer!, percent, block!
 			space: 10x10 ; records space in current environment
 			min: 50x25 ; minimal dimensions of current element
 			;max: none ; TBD optional max dimensions of current element
 			;min-pos, max-pos ;TBD?
-			;free-size?: (no) ;TBD
+			free-size?: (no) ;TBD
 		]
 		actors: object [
+			pos: sz: diff: down?: none
+			;on-create: func [face event][
+			;	if face/extra/free-size? [
+					;probe face/draw: compose [fill-pen gray pen silver triangle (face/size) (face/size - 0x7) (face/size - 7x0)]
+					;face/flags: 'all-over
+			;	]
+			;]
 			on-created: func [face event /local fc f] [
 				unless face/parent/extra [face/parent/extra: copy []]
 				append face/parent/extra face
@@ -197,7 +233,52 @@ view/flags [
 					fc/extra
 					foreach f fc/extra [do-actor f event 'resizing]
 				]
+				all [
+					face/extra/free-size?
+					any [
+						face/pane/1/actors 
+						face/pane/1/actors: make object! []
+					]
+					face/pane/1/flags: 'all-over
+					face/pane/1/actors: make face/pane/1/actors [
+						on-over: func [fc event][
+							if event/down? [do-actor fc/parent event 'over]
+						]
+					]
+				]
 			] 
+			on-down: func [face event][
+				all [
+					face = event/face/parent
+					face/extra
+					face/extra/free-size?
+					pos: event/offset
+					diff: face/size - pos
+				]
+			]
+			on-over: func [face event][;probe "hoi1"
+				all [
+					face = event/face/parent
+					face/extra/free-size?
+					event/down?
+					face/size: face/pane/1/size: event/offset + diff
+					register-dependants face
+					all [
+						any [
+							all [
+								empty? face/extra/right 
+								face/parent/size/x: max face/parent/size/x face/offset/x + face/size/x + face/extra/space/x
+							]
+							all [
+								sort/compare face/extra/right func [a b][(lim x a/1/1) > (lim x b/1/1)]
+								face/parent/size/x: max face/parent/size/x (lim x face/extra/right/1/1) + face/extra/space/x
+							]
+						]
+					]
+					move-dependants face
+					
+				]
+			]
 			on-resizing: func [face event /local fc f] [
 				unless face/options/at-offset [
 					face/pane/1/size: face/size: get-dims face
@@ -212,27 +293,26 @@ view/flags [
 			]
 		]
 	]
-	; Example 1
 	fluid with [extra/width: [1 3] extra/height: -50][area wrap] 
-	fluid with [extra/height: 80% extra/width: [1 3]][box gold] ;extra/absolute?: no
-	fluid with [extra/width: [1 3]][text-list data [
+	fluid with [extra/height: 80% extra/width: 'fixed extra/free-size?: yes][box gold] ;extra/absolute?: no
+	fluid with [extra/align: 'right][; extra/height: 'auto]
+		text-list data [
 			"Lorem" "ipsum" "dolor" "sit" "amet" "consectetur" "adipiscing" "elit" 
 			"sed" "do" "eiusmod" "tempor" "incididunt" "ut labore" "et dolore" "magna" "aliqua"
 		]
 	] 
-	return button "OK"
+	return button "Longer button"
 	
-	; Example 2
 	;text "Description:" fluid with [extra/height: -220][area wrap] return ;
 	;fluid with [extra/height: 25][panel [origin 0x0 text "First name:" fluid with [extra/space: 0x0][fn: field]]] return
 	;fluid with [extra/height: 25][panel [origin 0x0 text "Last name:" fluid with [extra/space: 0x0][ln: field]]] return
-	;fluid with [extra/size: 'fixed extra/valign: 'bottom extra/align: 'right][button "Send"]
+	;fluid with [extra/size: 'fixed extra/valign: 'bottom extra/align: 'right][button "Send"];[panel [origin 0x0 field button "Send something" return base 80x40]]
 	
-	; Example 3
 	;fluid with [extra/height: 'fixed][box brick] return
 	;fluid with [extra/width: 33% extra/height: -50][box leaf] 
 	;fluid with [extra/width: 15% extra/height: 50%][box gold] 
 	;;fluid with [extra/width: 15%][box teal] 
 	;fluid with [extra/width: 'auto extra/height: 'auto][box teal] 
 	;return button "OK"
+	
 ][resize]
