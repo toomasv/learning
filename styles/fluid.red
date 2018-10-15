@@ -92,7 +92,7 @@ get-dims: func [face /height width /sz sz-set? /local size dim z side ind][
 	]
 	either height [max as-pair width height face/extra/min][get-dims/height/sz face width sz-set?]
 ]
-; Register faces on right/above of the current one
+; Register faces on right/below of the current one
 register-dependants: func [face /local pane elem][
 	pane: face/parent/pane
 	clear face/extra/right
