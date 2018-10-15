@@ -1,2 +1,2 @@
 # learning
-Some tutorials
+Some tutorials, examples and helpers
