@@ -3,8 +3,7 @@ Red [
 	Date: 2018-10-11
 	Last: 2018-10-15
 	Purpose: {Fluid style for Red VID}
-];#include %../../../utils/dump-face.red
-;do %mylayout.red
+]
 lim: func [:dir face][face/offset/:dir + face/size/:dir] 
 ; Get offset of the fluid container
 get-offset: func [face /local x-ofs y-ofs][
@@ -175,6 +174,7 @@ move-dependants: func [face /local right elem limit][
 			elem/1/offset/y: face/extra/space/y + max limit lim y face
 		]
 	]
+	true
 ]
 get-limit: func [face side /local dim][
 	dim: pick [x y] side = 'right
@@ -248,26 +248,31 @@ view/flags [
 					diff: face/size - pos
 				]
 			]
-			on-over: func [face event][
+			on-over: func [face event /local limit][
 				all [
 					face = event/face/parent
 					face/extra/free-size?
 					event/down?
 					face/size: face/pane/1/size: event/offset + diff
 					register-dependants face
+					move-dependants face
 					all [
 						any [
 							all [
 								empty? face/extra/right 
 								face/parent/size/x: max face/parent/size/x face/offset/x + face/size/x + face/extra/space/x
 							]
-							all [
-								sort/compare face/extra/right func [a b][(lim x a/1) > (lim x b/1)]
-								face/parent/size/x: max face/parent/size/x (lim x face/extra/right/1/1) + face/extra/space/x
+							all [ 
+								either 2 <= length? face/extra/right [
+									sort/compare face/extra/right func [a b][(lim x a/1) > (lim x b/1)]
+								][true]
+								all [
+									face/parent/size/x < limit: (face/extra/space/x + lim x face/extra/right/1/1)
+									face/parent/size/x: limit
+								]
 							]
 						]
 					]
-					move-dependants face
 					
 				]
 			]
