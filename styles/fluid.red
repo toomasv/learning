@@ -3,7 +3,8 @@ Red [
 	Date: 2018-10-11
 	Last: 2018-10-15
 	Purpose: {Fluid style for Red VID}
-]
+];#include %../../../utils/dump-face.red
+;do %mylayout.red
 lim: func [:dir face][face/offset/:dir + face/size/:dir] 
 ; Get offset of the fluid container
 get-offset: func [face /local x-ofs y-ofs][
@@ -14,7 +15,7 @@ get-offset: func [face /local x-ofs y-ofs][
 				x-ofs: face/parent/size/x - face/extra/space/x - face/size/x
 			][
 				if 2 <= length? face/extra/right [
-					sort/compare face/extra/right func [a b][a/1/1/offset/x < b/1/1/offset/x]
+					sort/compare face/extra/right func [a b][a/1/offset/x < b/1/offset/x]
 				]
 				x-ofs: face/extra/right/1/x - face/extra/space/x - face/size/x
 			]
@@ -27,7 +28,7 @@ get-offset: func [face /local x-ofs y-ofs][
 				y-ofs: face/parent/size/y - face/extra/space/y - face/size/y
 			][
 				if 2 <= length? face/extra/below [
-					sort/compare face/extra/below func [a b][a/1/1/offset/y < b/1/1/offset/y]
+					sort/compare face/extra/below func [a b][a/1/offset/y < b/1/offset/y]
 				]
 				y-ofs: face/extra/below/1/y - face/extra/space/y - face/size/y
 			]
@@ -113,7 +114,7 @@ register-dependants: func [face /local pane elem][
 	forall pane [
 		elem: pane/1
 		unless all [
-			face/extra/width <> 'fixed
+			;face/extra/width <> 'fixed
 			elem/offset/x > lim x face 
 			not elem/options/at-offset
 			face/offset/y < lim y elem
@@ -121,7 +122,7 @@ register-dependants: func [face /local pane elem][
 			append/only face/extra/right pane
 		][
 			all [
-				face/extra/height <> 'fixed
+				;face/extra/height <> 'fixed
 				elem/offset/y > lim y face 
 				not elem/options/at-offset
 				face/offset/x < lim x elem
@@ -177,15 +178,12 @@ move-dependants: func [face /local right elem limit][
 ]
 get-limit: func [face side /local dim][
 	dim: pick [x y] side = 'right
-	;probe "hi"
 	either empty? face/extra/:side [
-		;probe "empty"
 		face/parent/size/:dim - face/extra/space/:dim
 	][
 		if 2 <= length? face/extra/:side [
-			sort/compare face/extra/:side func [a b][a/1/1/offset/:dim < b/1/1/offset/:dim]
+			sort/compare face/extra/:side func [a b][a/1/offset/:dim < b/1/offset/:dim]
 		]
-		;print ["not empty" face/extra/:side/1/1/offset/:dim face/extra/:side/1/1/size/:dim ]
 		face/extra/:side/1/1/offset/:dim - face/extra/space/:dim
 	]
 ]
@@ -264,7 +262,7 @@ view/flags [
 								face/parent/size/x: max face/parent/size/x face/offset/x + face/size/x + face/extra/space/x
 							]
 							all [
-								sort/compare face/extra/right func [a b][(lim x a/1/1) > (lim x b/1/1)]
+								sort/compare face/extra/right func [a b][(lim x a/1) > (lim x b/1)]
 								face/parent/size/x: max face/parent/size/x (lim x face/extra/right/1/1) + face/extra/space/x
 							]
 						]
@@ -287,7 +285,7 @@ view/flags [
 			]
 		]
 	]
-	fluid with [extra/width: [1 3] extra/height: -50][area wrap] 
+	fluid with [extra/width: [1 3] extra/height: -50 extra/free-size?: yes][area wrap] 
 	fluid with [extra/height: 80% extra/width: 'fixed extra/free-size?: yes][box gold] ;extra/absolute?: no
 	fluid with [extra/align: 'right][; extra/height: 'auto]
 		text-list data [
@@ -309,4 +307,5 @@ view/flags [
 	;fluid with [extra/width: 'auto extra/height: 'auto][box teal] 
 	;return button "OK"
 	
+	;fluid 300x300 [tab-panel ["A" [fluid [area]] "B" [fluid [field]]]]
 ][resize]
