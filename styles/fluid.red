@@ -212,12 +212,6 @@ view/flags [
 		]
 		actors: object [
 			pos: sz: diff: down?: none
-			;on-create: func [face event][
-			;	if face/extra/free-size? [
-					;probe face/draw: compose [fill-pen gray pen silver triangle (face/size) (face/size - 0x7) (face/size - 7x0)]
-					;face/flags: 'all-over
-			;	]
-			;]
 			on-created: func [face event /local fc f] [
 				unless face/parent/extra [face/parent/extra: copy []]
 				append face/parent/extra face
@@ -256,7 +250,7 @@ view/flags [
 					diff: face/size - pos
 				]
 			]
-			on-over: func [face event][;probe "hoi1"
+			on-over: func [face event][
 				all [
 					face = event/face/parent
 					face/extra/free-size?
