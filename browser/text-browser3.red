@@ -149,7 +149,7 @@ ctx: context [
 		line-height: 16; rich-text/line-height? rt 1
 		page-size: scr/page-size: rt/size/y / line-height
 		document/draw: compose [text 5x5 (rt)]
-		do [forall scripts [do scripts/1 system/view/platform/redraw document]]
+		do [forall scripts [do scripts/1] system/view/platform/redraw document]
 		set-focus document
 	]
 	view/flags lay: layout [
