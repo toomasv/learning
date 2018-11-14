@@ -33,7 +33,7 @@ require: func [msg /local val][
 				text-list focus data (split form exclude sort extract load help-string tuple! 2 [glass transparent] #" ")
 				select 3
 				on-change [val: get load pick face/data face/selected unview]
-				on-dbl-clik [val: get load pick face/data face/selected unview]
+				on-dbl-click [val: get load pick face/data face/selected unview]
 			]
 		]
 	]
