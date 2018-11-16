@@ -1,4 +1,4 @@
-# Table test
+# Files
 
 <table>
 <tr> <td> 1. <td><a href="rich-text.beginner1.red">rich-text.beginner1.red</a>
