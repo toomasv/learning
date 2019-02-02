@@ -19,16 +19,21 @@ view [
 			fill-pen silver
 			knob: box 1x16 14x58
 		] on-down [
-			either within? event/offset knob/2 knob/3 - knob/2 [
+			if within? event/offset knob/2 knob/3 - knob/2 [
 				face/extra: knob/2/y - event/offset/y
+			]
+		] on-up [
+			if all [
+				not within? event/offset knob/2 knob/3 - knob/2
+				within? event/offset upper/2 lower/3
 			][
-				probe knob/2/y: val/data: min 142 max 16 knob/2/y + case [
+				knob/2/y: val/data: min 142 max 16 knob/2/y + case [
 					within? event/offset upper/2 upper/3 - upper/2 [-7]
 					within? event/offset lower/2 lower/3 - lower/2 [7]
 					within? event/offset long/2 knob/2 + 16x0 - long/2 [-42]
 					within? event/offset knob/3 - 16x0 long/3 - (knob/3 - 16x0) [42]
 				]
-				probe knob/3/y: knob/2/y + 42
+				knob/3/y: knob/2/y + 42
 			]
 		] all-over on-over [
 			if all [within? event/offset knob/2 knob/3 - knob/2 event/down?][
