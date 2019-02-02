@@ -18,7 +18,7 @@ view [
 			long: box 0x16 16x184
 			fill-pen silver
 			knob: box 1x16 14x58
-		] on-up [
+		] on-down [
 			either within? event/offset knob/2 knob/3 - knob/2 [
 				face/extra: knob/2/y - event/offset/y
 			][
