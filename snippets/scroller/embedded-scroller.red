@@ -2,9 +2,9 @@ Red [
 	Title: {Example of embedded scroller}
 ]
 view [
-    size 390x220
-    across space 0x0
-    base 367x200 with [
+	size 390x220
+	across space 0x0
+	base 367x200 with [
 		flags: 'scrollable
 		pane: layout/only [
 			origin 0x0 space 0x0
