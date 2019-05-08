@@ -61,3 +61,11 @@ context [
 		]
 	]
 ]
+
+comment {
+	view [toggle]
+	view [toggle with [extra/text: ["On" "Off"]]]
+	view [toggle with [extra/text/1: "Supercali-^/fragilistic"]]
+	view [toggle with [default: true]]
+	view [t1: toggle toggle with [extra/text: ["True" "False"]] on-up [t1/actors/on-down t1]]
+}
