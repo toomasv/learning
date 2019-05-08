@@ -38,7 +38,7 @@ context [
 				face/extra/true-img: draw face/extra/true-img compose [
 					fill-pen leaf pen gray box 0x0 (box-size) 12 font toggle-font text (as-pair ofs/x 1) (face/extra/true)
 				]
-				ofx: btn-size - false-size / 2
+				ofs: btn-size - false-size / 2
 				face/extra/false-img: draw face/extra/false-img compose [
 					fill-pen brick pen gray box 0x0 (box-size) 12 font toggle-font text (as-pair ofs/x 1) (face/extra/false)
 				]
