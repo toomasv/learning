@@ -4,7 +4,7 @@ Red [
 	Author: "Toomas Vooglaid"
 ]
 context [
-	true-size: false-size: max-size: btn-size: box-size: ofx: none
+	true-size: false-size: max-size: btn-size: box-size: ofs: none
 	toggle-font: make font! [color: white style: 'bold]
 	toggle-text: make face! [type: 'area font: toggle-font size: 200x25 text: copy ""]
 	extend system/view/VID/styles [
