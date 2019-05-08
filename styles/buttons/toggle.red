@@ -4,6 +4,12 @@ Red [
 	Author: "Toomas Vooglaid"
 ]
 context [
+	make-transparent: function [img alpha][
+		tr: copy at enbase/base to-binary alpha 16 7
+		append/dup tr tr to-integer log-2 length? img
+		append tr copy/part tr 2 * (length? img) - length? tr
+		make image! reduce [img/size img/rgb debase/base tr 16]
+	]
 	true-size: false-size: max-size: btn-size: box-size: ofs: none
 	toggle-font: make font! [color: white style: 'bold]
 	toggle-text: make face! [type: 'field font: toggle-font size: 200x25]
@@ -33,7 +39,7 @@ context [
 				max-size: 20x2 + max true-size false-size
 				btn-size: max min-size max-size
 				box-size: (face/size: btn-size) - 1
-				face/extra/true-img: draw btn-size compose [fill-pen snow pen off box 0x0 (box-size)]
+				face/extra/true-img: make-transparent draw btn-size [] 255 ;compose [fill-pen snow pen off box 0x0 (box-size)]
 				face/extra/false-img: copy face/extra/true-img
 				ofs: btn-size - true-size / 2
 				face/extra/true-img: draw face/extra/true-img compose [
