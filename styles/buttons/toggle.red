@@ -15,13 +15,13 @@ context [
 	toggle-text: make face! [type: 'field font: toggle-font size: 200x25]
 	corner: 'auto
 	min-size: 50x25
-	background: 'snow;false ;'snow ; `false` is for transparent bg; 
+	background: 'snow ; false ; `false` is for transparent background; 
 		;if transparency doesn't work, use appropriate bg-color, usually `snow`
 	extend system/view/VID/styles [
 		toggle: [
 			template: [
 				type: 'base
-				default: false
+				data: false
 				extra: [
 					text ["Yes" "No"]
 					image []
@@ -55,7 +55,6 @@ context [
 				face/extra/image/2: draw face/extra/image/2 compose [
 					fill-pen brick pen gray box 0x0 (box-size) (crnr) font toggle-font text (ofs) (face/extra/text/2)
 				]
-				face/data: face/default
 				face/image: pick face/extra/image face/data
 			]
 		]
@@ -66,6 +65,6 @@ comment {
 	view [toggle]
 	view [toggle with [extra/text: ["On" "Off"]]]
 	view [toggle with [extra/text/1: "Supercali-^/fragilistic"]]
-	view [toggle with [default: true]]
+	view [toggle data true]
 	view [t1: toggle toggle with [extra/text: ["True" "False"]] on-up [t1/actors/on-down t1]]
 }
