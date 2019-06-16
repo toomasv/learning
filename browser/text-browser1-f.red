@@ -13,7 +13,9 @@ rule: [some [
 view [
 	below 
 	field 400 on-enter [
-		parse tx: read face/data rule
+		parse tx: write rejoin [face/data][
+			get [Accept-Charset: "utf-8" User-Agent: "Mozilla/5.0"]
+		] rule
 		ar/text: tx
 	] 
 	ar: area 400x400 wrap

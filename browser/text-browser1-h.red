@@ -23,7 +23,9 @@ view/flags [
 	]
 	below 
 	field 400 focus on-enter [
-		parse tx: read face/data rule
+		parse tx: write rejoin [face/data][
+			get [Accept-Charset: "utf-8" User-Agent: "Mozilla/5.0"]
+		] rule
 		parse tx [some [2 newline change [newline some ws] newline | skip]]
 		ar/text: tx
 	] 

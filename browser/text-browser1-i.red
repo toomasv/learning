@@ -1,10 +1,10 @@
 Red [Needs: View]
 ws: charset reduce [space newline tab]
 rule: [
-	remove thru {<div class='blog-posts hfeed'>}
+	;remove thru {<div class='blog-posts hfeed'>}
 	some [
-		remove [{<div class='blog-pager' id='blog-pager'>} thru end]
-	|
+	;	remove [{<div class='blog-pager' id='blog-pager'>} thru end]
+	;|
 		remove [
 			"<script" thru "script>" 
 		| 	"<style" thru "style>" 
@@ -28,7 +28,10 @@ view/flags [
 	]
 	below 
 	field 400 default https://www.red-lang.org focus on-enter [
-		parse tx: read face/data rule
+		;parse tx: read face/data rule
+		parse tx: write rejoin [face/data][
+			get [Accept-Charset: "utf-8" User-Agent: "Mozilla/5.0"]
+		] rule
 		parse tx [some [2 newline change [newline some ws] newline | skip]]
 		ar/text: tx
 	] 
