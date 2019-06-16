@@ -18,7 +18,7 @@ view [
 ]
 ```
 Yay! It works! We have our url-address!
-Now we need actually to get something from this addrress. [Go and fetch it](text-browser1-c.red):
+Now we need actually to get something from this addrress. [Go and fetch it](text-browser1-c.red) (Hmm.. Because some sites like google use strange utf we should use a fix (thanks to @Oldes)):
 ```
 view [
 	below 
