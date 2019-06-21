@@ -7,12 +7,12 @@ So, let's make the [basic structure](text-browser1-a.red) stright away:
 view [below field 400 area 400x400]
 ```
 Next thing we need is giving our browser an address and fetching the data.
-Address we we can write or paste into our field and the nice thing about the field is that it loads everything put into its `text` facet stright away into its `data` facet, so that if we enter a web address into field it is loaded at once into `data` facet as `url!`. Let's [try this](text-browser1-b.red) out reflecting the type into area using `on-enter` actor for this (we need to convert type-word into string to put it into area's `/text` facet):
+Address we can write or paste into our field and the nice thing about the field is that it loads everything put into its `text` facet stright away into its `data` facet, so that if we enter a web address into field it is loaded at once into `data` facet as `url!`. Let's [try this](text-browser1-b.red) out reflecting the type into area using `on-enter` actor for this (we need to convert type-word into string to put it into area's `/text` facet):
 ```
 view [
 	below 
 	field 400 on-enter [
-		ar/text: to-string type?/word face/data
+		ar/text: mold type? face/data
 	] 
 	ar: area 400x400
 ]
